@@ -1,6 +1,6 @@
 {
   "name": "pancakes-cli",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A CLI tool to scaffold, build, and publish TypeScript libraries with ease — like flipping pancakes.",
   "keywords": [
     "cli",
