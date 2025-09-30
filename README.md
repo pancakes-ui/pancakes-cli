@@ -21,6 +21,7 @@
 
 ```bash
 npm install -g pancakes-cli
+```
 
 🛠 Usage
 
@@ -29,18 +30,19 @@ pancakes-cli
 Then follow the interactive prompts:
 
 🥞 pancakes-cli v1.0.0
-  Your TypeScript library toolkit
-  Build. Publish. Repeat.
+Your TypeScript library toolkit
+Build. Publish. Repeat.
 
 ✔ What would you like to do?
-  - Create a new TypeScript library
-  - Publish package
+
+- Create a new TypeScript library
+- Publish package
 
 📁 Example Project Structure
 
 my-library/
 ├── src/
-│   └── index.ts
+│ └── index.ts
 ├── tsconfig.json
 ├── package.json
 ├── rollup.config.js
@@ -50,7 +52,7 @@ my-library/
 
 You can run commands directly too:
 
-pancakes-cli start    # Start the interactive CLI
+pancakes-cli start # Start the interactive CLI
 
 🧪 Tech Stack
 
@@ -78,4 +80,3 @@ Found a bug or want a feature? Open an issue
 📬 Contact
 
 Email: 99.a.cpcf.r.99@gmail.com
-```
