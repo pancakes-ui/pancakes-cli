@@ -40,19 +40,26 @@ Build. Publish. Repeat.
 
 📁 Example Project Structure
 
-my-library/
+<pre>my-library/
 ├── src/
 │ └── index.ts
 ├── tsconfig.json
 ├── package.json
 ├── rollup.config.js
 └── README.md
+</pre>
 
 🧰 Commands
 
 You can run commands directly too:
 
-pancakes-cli start # Start the interactive CLI
+```bash
+pancakes-cli
+```
+
+```bash
+npx pancakes-cli
+```
 
 🧪 Tech Stack
 
