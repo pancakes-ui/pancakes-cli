@@ -23,7 +23,7 @@
 npm install -g pancakes-cli
 ```
 
-🛠 Usage
+## 🛠 Usage
 
 pancakes-cli
 
@@ -38,7 +38,7 @@ Build. Publish. Repeat.
 - Create a new TypeScript library
 - Publish package
 
-📁 Example Project Structure
+## 📁 Example Project Structure
 
 <pre>my-library/
 ├── src/
@@ -49,7 +49,7 @@ Build. Publish. Repeat.
 └── README.md
 </pre>
 
-🧰 Commands
+## 🧰 Commands
 
 You can run commands directly too:
 
@@ -61,7 +61,7 @@ pancakes-cli
 npx pancakes-cli
 ```
 
-🧪 Tech Stack
+## 🧪 Tech Stack
 
     TypeScript
 
@@ -77,9 +77,27 @@ npx pancakes-cli
 
     Minimist (arg parsing)
 
-🛡 License
+Got it! You want it formatted as **README markdown text** that looks clean and natural, not just a JSON snippet.
 
-MIT © azcpcf
+Here’s a full markdown section you can add to your README:
+
+---
+
+## 🔐 Granting Publish Access
+
+To let `pancakes-cli` publish your package smoothly, add the following property to your `package.json`:
+
+```json
+{
+  "pancakes-cli": true
+}
+```
+
+This setting gives the CLI permission to manage npm publishing tasks like versioning, tagging, and validation for your package.
+
+## 🛡 License
+
+ISC © azcpcf
 ❤️ Contributions
 
 Pull requests welcome!
