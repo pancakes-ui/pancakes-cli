@@ -52,14 +52,15 @@ export class PublishManager {
             message: 'Enter the version you want to publish:',
             initial: currentVersion,
             validate: (input: string) => {
-                if (!semver.valid(input)) {
-                    return 'Please enter a valid semver version.';
+                const stripped = input.startsWith('v') ? input.slice(1) : input;
+                if (!semver.valid(stripped)) {
+                    return 'Please enter a valid semver version (e.g., v1.2.3 or 1.2.3).';
                 }
-                if (semver.lte(input, currentVersion)) {
+                if (semver.lte(stripped, currentVersion)) {
                     return `Version must be greater than the current version (${currentVersion}).`;
                 }
                 return true;
-            },
+            }
         });
 
         if (!newVersion) {
