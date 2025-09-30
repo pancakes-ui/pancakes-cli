@@ -1,0 +1,60 @@
+{
+  "name": "pancakes-cli",
+  "version": "1.0.0",
+  "description": "A CLI tool to scaffold, build, and publish TypeScript libraries with ease — like flipping pancakes.",
+  "keywords": [
+    "cli",
+    "typescript",
+    "library",
+    "scaffold",
+    "toolkit",
+    "npm",
+    "automation",
+    "rollup",
+    "build-tool",
+    "typescript-cli",
+    "open-source",
+    "dev-tools",
+    "publish"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pancakes-ui/pancakes-cli"
+  },
+  "bin": {
+    "pancakes-cli": "dist/cli.js"
+  },
+  "main": "src/cli.ts",
+  "scripts": {
+    "start": "node --import=tsx src/cli.ts",
+    "build": "bun build src/cli.ts --outfile dist/cli.js --target=node --format=esm --minify && echo '#!/usr/bin/env node' | cat - dist/cli.js > dist/tmp && mv dist/tmp dist/cli.js",
+    "commit": "cz",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "azcpcf <99.a.cpcf.r.99@gmail.com>",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^24.5.2",
+    "@types/prompts": "^2.4.9",
+    "@types/semver": "^7.7.1",
+    "commitizen": "^4.3.1",
+    "cz-conventional-changelog": "^3.3.0",
+    "semver": "^7.7.2",
+    "typescript": "^5.9.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "dependencies": {
+    "colorette": "^2.0.20",
+    "minimist": "^1.2.8",
+    "nanospinner": "^1.2.2",
+    "pancakes-cli": "file:pancakes-cli-1.0.0.tgz",
+    "prompts": "^2.4.2",
+    "tsx": "^4.20.6"
+  }
+}
