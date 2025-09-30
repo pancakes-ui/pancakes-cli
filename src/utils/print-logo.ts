@@ -1,13 +1,15 @@
 import { cyan, dim, green, yellow } from 'colorette';
-import fs from 'fs';
-import path from 'path';
+import { execSync } from 'child_process';
 
 export function printLogo(statusMessage?: string) {
+    let version = '0.0.0';
 
-    const packageJsonPath = path.resolve(process.cwd(), 'package.json');
-    const pkg = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-
-    const version = pkg.version || '0.0.0';
+    try {
+        const npmOutput = execSync('npm view pancakes-cli version', { encoding: 'utf-8' }).trim();
+        version = npmOutput || version;
+    } catch (error) {
+        console.warn('Warning: Could not get version from npm');
+    }
 
     const logo = [
         yellow('  |-----🧈------|'),
