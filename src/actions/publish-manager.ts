@@ -123,14 +123,34 @@ export class PublishManager {
     }
 
     findPancakesPackages(rootDir: string) {
-        const dirs = fs.readdirSync(rootDir, { withFileTypes: true });
         const packages: { name: string; version: string; path: string }[] = [];
 
+        // Check current directory package.json
+        const currentPkgJsonPath = path.join(rootDir, 'package.json');
+        if (fs.existsSync(currentPkgJsonPath)) {
+            try {
+                const currentPkgJson = JSON.parse(fs.readFileSync(currentPkgJsonPath, 'utf-8'));
+                if (currentPkgJson['pancakes-cli']) {
+                    packages.push({
+                        name: currentPkgJson.name || path.basename(rootDir),
+                        version: currentPkgJson.version || '0.0.0',
+                        path: rootDir,
+                    });
+                }
+            } catch {
+                // Ignore JSON errors
+            }
+        }
+
+        // Check immediate subdirectories
+        const dirs = fs.readdirSync(rootDir, { withFileTypes: true });
         for (const dirent of dirs) {
             if (dirent.isDirectory()) {
                 const pkgPath = path.join(rootDir, dirent.name);
-                const pkgJsonPath = path.join(pkgPath, 'package.json');
+                // Skip if already checked current dir
+                if (pkgPath === rootDir) continue;
 
+                const pkgJsonPath = path.join(pkgPath, 'package.json');
                 if (fs.existsSync(pkgJsonPath)) {
                     try {
                         const pkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8'));
@@ -150,6 +170,7 @@ export class PublishManager {
 
         return packages;
     }
+
 
     async ensureDependenciesInstalled(projectPath: string) {
         const nodeModulesPath = path.join(projectPath, 'node_modules');
