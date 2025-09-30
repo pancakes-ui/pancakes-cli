@@ -112,6 +112,7 @@ export class LibraryCreator {
                     rollup: '^3.29.4',
                     '@rollup/plugin-node-resolve': '^15.1.0',
                     '@rollup/plugin-commonjs': '^24.0.1',
+                    "tslib": "^2.8.1",
                     '@rollup/plugin-typescript': '^11.0.0',
                 },
             };
