@@ -24,7 +24,7 @@ export class LibraryCreator {
                 type: 'text',
                 name: 'name',
                 message: 'Project name:',
-                initial: 'smart-ui',
+                initial: 'your-lib-name',
                 validate: async (input: string) => {
                     if (!input || input.trim().length === 0) {
                         return 'Project name cannot be empty.';
