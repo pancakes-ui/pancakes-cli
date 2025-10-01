@@ -2,16 +2,14 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import prompts from 'prompts';
-import { createSpinner } from 'nanospinner';
+import { gitignoreTemplate } from '../templates/gitignore';
+import { indexPureTemplate } from '../templates/pure/index.template';
+import { packageJsonPureTemplate } from '../templates/pure/package.json';
+import { rollupConfigPureTemplate } from '../templates/pure/rollup.config';
+import { tsConfigPureTemplate } from '../templates/pure/tsconfig.json';
+import { execution } from '../utils/execution';
+import { getNpmUsername } from '../utils/get-info/get-npm-info';
 
-function getNpmUsername(): string | null {
-    try {
-        const username = execSync('npm whoami', { encoding: 'utf-8' }).trim();
-        return username || null;
-    } catch {
-        return null;
-    }
-}
 
 export class LibraryCreator {
     async run() {
@@ -74,153 +72,73 @@ export class LibraryCreator {
     }
 
     createFolder(name: string) {
-        const spinner = createSpinner(`Creating folder '${name}'...`).start();
-        try {
-            const folderPath = path.resolve(process.cwd(), name);
-            if (fs.existsSync(folderPath)) {
-                spinner.error({ text: `Folder '${name}' already exists.` });
-                throw new Error(`Folder '${name}' already exists.`);
+        return execution({
+            startMessage: `Creating folder '${name}'...`, errorMessage: `Failed to create folder '${name}'`, successMessage: `Folder '${name}' created`, callback: () => {
+                const folderPath = path.resolve(process.cwd(), name);
+                if (fs.existsSync(folderPath)) {
+                    return { isError: true, data: `Folder '${name}' already exists.` }
+                }
+                fs.mkdirSync(folderPath, { recursive: true });
+                return folderPath
             }
-            fs.mkdirSync(folderPath, { recursive: true });
-            spinner.success({ text: `Folder '${name}' created` });
-            return folderPath;
-        } catch (error) {
-            spinner.error({ text: `Failed to create folder '${name}'` });
-            throw error;
-        }
+        })
     }
 
     initPackageJson(projectPath: string, name: string, author: string) {
-        const spinner = createSpinner('Initializing package.json...').start();
-        try {
-            const packageJson = {
-                name,
-                version: '0.0.0',
-                description: '',
-                main: 'dist/index.js',
-                scripts: {
-                    build: 'rollup -c',
-                    prepare: 'npm run build',
-                    rollup: "rollup -c --bundleConfigAsCjs",
-                    test: 'echo "No tests yet"',
-                },
-                author,
-                license: 'MIT',
-                "pancakes-cli": true, // marker
-                devDependencies: {
-                    typescript: '^5.1.3',
-                    rollup: '^3.29.4',
-                    '@rollup/plugin-node-resolve': '^15.1.0',
-                    '@rollup/plugin-commonjs': '^24.0.1',
-                    "tslib": "^2.8.1",
-                    '@rollup/plugin-typescript': '^11.0.0',
-                },
-            };
+        execution({
+            startMessage: 'Initializing package.json...', successMessage: 'package.json initialized', errorMessage: 'Failed to initialize package.json', callback: () => {
+                const packageJson = packageJsonPureTemplate({ name, author })
+                fs.writeFileSync(
+                    path.join(projectPath, 'package.json'),
+                    JSON.stringify(packageJson, null, 2)
+                );
+            }
+        })
 
-            fs.writeFileSync(
-                path.join(projectPath, 'package.json'),
-                JSON.stringify(packageJson, null, 2)
-            );
-
-            spinner.success({ text: 'package.json initialized' });
-        } catch (error) {
-            spinner.error({ text: 'Failed to initialize package.json' });
-            throw error;
-        }
     }
 
     createTsConfig(projectPath: string) {
-        const spinner = createSpinner('Creating tsconfig.json...').start();
-        try {
-            const tsconfig = {
-                compilerOptions: {
-                    target: 'ES2017',
-                    module: 'ESNext',
-                    declaration: true,
-                    outDir: 'dist',
-                    strict: true,
-                    esModuleInterop: true,
-                    skipLibCheck: true,
-                    moduleResolution: 'Node',
-                    forceConsistentCasingInFileNames: true,
-                },
-                include: ['src'],
-            };
+        execution({
+            callback: () => {
+                const tsconfig = tsConfigPureTemplate()
 
-            fs.writeFileSync(
-                path.join(projectPath, 'tsconfig.json'),
-                JSON.stringify(tsconfig, null, 2)
-            );
-
-            spinner.success({ text: 'tsconfig.json created' });
-        } catch (error) {
-            spinner.error({ text: 'Failed to create tsconfig.json' });
-            throw error;
-        }
+                fs.writeFileSync(
+                    path.join(projectPath, 'tsconfig.json'),
+                    JSON.stringify(tsconfig, null, 2)
+                );
+            }, errorMessage: 'Failed to create tsconfig.json'
+            , successMessage: 'tsconfig.json created', startMessage: 'Creating tsconfig.json...'
+        })
     }
 
     createRollupConfig(projectPath: string) {
-        const spinner = createSpinner('Creating rollup.config.js...').start();
-        try {
-            const content = `import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import typescript from '@rollup/plugin-typescript';
-
-export default {
-  input: 'src/index.ts',
-  output: [
-    {
-      file: 'dist/index.cjs.js',
-      format: 'cjs',
-      sourcemap: true,
-    },
-    {
-      file: 'dist/index.esm.js',
-      format: 'esm',
-      sourcemap: true,
-    },
-  ],
-  plugins: [resolve(), commonjs(), typescript({ tsconfig: './tsconfig.json' })],
-};
-`;
-            fs.writeFileSync(path.join(projectPath, 'rollup.config.js'), content);
-            spinner.success({ text: 'rollup.config.js created' });
-        } catch (error) {
-            spinner.error({ text: 'Failed to create rollup.config.js' });
-            throw error;
-        }
+        execution({
+            startMessage: 'Creating rollup.config.js...', successMessage: 'rollup.config.js created', errorMessage: 'Failed to create rollup.config.js', callback: () => {
+                const content = rollupConfigPureTemplate();
+                fs.writeFileSync(path.join(projectPath, 'rollup.config.js'), content);
+            }
+        })
     }
 
     createGitignore(projectPath: string) {
-        const spinner = createSpinner('Creating .gitignore...').start();
-        try {
-            const content = `node_modules
-dist
-`;
-            fs.writeFileSync(path.join(projectPath, '.gitignore'), content);
-            spinner.success({ text: '.gitignore created' });
-        } catch (error) {
-            spinner.error({ text: 'Failed to create .gitignore' });
-            throw error;
-        }
+        execution({
+            startMessage: 'Creating .gitignore...', successMessage: '.gitignore created', errorMessage: 'Failed to create .gitignore', callback: () => {
+                const content = gitignoreTemplate()
+                fs.writeFileSync(path.join(projectPath, '.gitignore'), content);
+            }
+        })
     }
 
     createSrcIndex(projectPath: string) {
-        const spinner = createSpinner('Creating src/index.ts...').start();
-        try {
-            const srcPath = path.join(projectPath, 'src');
-            if (!fs.existsSync(srcPath)) {
-                fs.mkdirSync(srcPath);
+        execution({
+            startMessage: 'Creating src/index.ts...', successMessage: 'src/index.ts created', errorMessage: 'Failed to create src/index.ts', callback: () => {
+                const srcPath = path.join(projectPath, 'src');
+                if (!fs.existsSync(srcPath)) {
+                    fs.mkdirSync(srcPath);
+                }
+                const content = indexPureTemplate();
+                fs.writeFileSync(path.join(srcPath, 'index.ts'), content);
             }
-            const content = `export function hello() {
-  return 'Hello from your library!';
-}
-`;
-            fs.writeFileSync(path.join(srcPath, 'index.ts'), content);
-            spinner.success({ text: 'src/index.ts created' });
-        } catch (error) {
-            spinner.error({ text: 'Failed to create src/index.ts' });
-            throw error;
-        }
+        })
     }
 }

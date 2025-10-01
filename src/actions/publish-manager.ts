@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs';
 import { execSync } from 'child_process';
+import fs from 'fs';
+import { createSpinner } from 'nanospinner';
+import path from 'path';
 import prompts from 'prompts';
 import semver from 'semver';
-import { createSpinner } from 'nanospinner';
+import { execution } from '../utils/execution';
 
 export class PublishManager {
     async run() {
@@ -111,15 +112,12 @@ export class PublishManager {
             return;
         }
 
-        // Publish with --access public
-        const publishSpinner = createSpinner('Publishing package to npm...').start();
-        try {
-            execSync('npm publish --access public', { cwd: projectPath, stdio: 'inherit' });
-            publishSpinner.success({ text: 'Package published to npm successfully!' });
-        } catch (error) {
-            publishSpinner.error({ text: 'Failed to publish package to npm.' });
-            console.error(error);
-        }
+        execution({
+            startMessage: 'Publishing package to npm...', errorMessage: 'Failed to publish package to npm.', successMessage: 'Package published to npm successfully!', callback: () => {
+                execSync('npm publish --access public', { cwd: projectPath, stdio: 'inherit' });
+            }
+        })
+
     }
 
     findPancakesPackages(rootDir: string) {
@@ -174,30 +172,20 @@ export class PublishManager {
 
     async ensureDependenciesInstalled(projectPath: string) {
         const nodeModulesPath = path.join(projectPath, 'node_modules');
-        const spinner = createSpinner();
-
         if (!fs.existsSync(nodeModulesPath)) {
-            spinner.start('Installing dependencies...');
-            try {
-                execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
-                spinner.success({ text: 'Dependencies installed.' });
-            } catch (error) {
-                spinner.error({ text: 'Failed to install dependencies.' });
-                throw error;
-            }
-        } else {
-            // Check if rollup binary exists (simple check)
-            const rollupPath = path.join(projectPath, 'node_modules', '.bin', 'rollup');
-            if (!fs.existsSync(rollupPath)) {
-                spinner.start('Installing missing dependencies...');
-                try {
+            return execution({
+                startMessage: 'Installing dependencies...', successMessage: 'Dependencies installed.', errorMessage: 'Failed to install dependencies.', callback: () => {
                     execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
-                    spinner.success({ text: 'Dependencies installed.' });
-                } catch (error) {
-                    spinner.error({ text: 'Failed to install dependencies.' });
-                    throw error;
                 }
-            }
+            })
+        }
+        const rollupPath = path.join(projectPath, 'node_modules', '.bin', 'rollup');
+        if (!fs.existsSync(rollupPath)) {
+            execution({
+                startMessage: 'Installing missing dependencies...', successMessage: 'Dependencies installed.', errorMessage: 'Failed to install dependencies.', callback: () => {
+                    execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
+                }
+            })
         }
     }
 }
