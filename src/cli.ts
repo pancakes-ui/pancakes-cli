@@ -1,8 +1,8 @@
 import { red } from 'colorette';
 import minimist from 'minimist';
-import { checkForUpdate } from './utils/check-update';
 import { mainMenu } from './utils/main-menu';
 import { printLogo } from './utils/print-logo';
+import { checkForUpdate } from './utils/check-update';
 
 
 async function main() {
