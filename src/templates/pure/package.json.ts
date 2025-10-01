@@ -1,4 +1,4 @@
-export const packageJsonPureTemplate = ({ name, author }: { name: string, author: string }) => {
+export const packageJsonPureTemplate = ({ name, author, test }: { name: string, author: string; test: "jest" | 'vitest' }) => {
     return {
         name,
         version: '0.0.0',
@@ -7,7 +7,7 @@ export const packageJsonPureTemplate = ({ name, author }: { name: string, author
         scripts: {
             "start": "node --import=tsx src/index.ts",
             "build": "tsup src/index.ts --format cjs --dts --clean --minify",
-            "test": "jest",
+            "test": test == "jest" ? "jest --silent" : "vitest",
         },
         author,
         license: 'MIT',
@@ -18,11 +18,11 @@ export const packageJsonPureTemplate = ({ name, author }: { name: string, author
             "tsup": "^8.5.0",
             "tsx": "^4.20.6",
             "@types/jest": "^30.0.0",
-            "jest": "^30.2.0",
             "ts-jest": "^29.4.4",
             '@rollup/plugin-node-resolve': '^15.1.0',
             '@rollup/plugin-commonjs': '^24.0.1',
             '@rollup/plugin-typescript': '^11.0.0',
+            ...(test == "jest" ? { "jest": "^30.2.0", } : { "vitest": "^3.2.4" }),
         },
     };
 }
