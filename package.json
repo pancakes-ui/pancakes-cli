@@ -31,8 +31,8 @@
   "scripts": {
     "start": "node --import=tsx src/cli.ts",
     "build": "tsup src/cli.ts --format cjs --dts --clean --minify",
-    "commit": "cz",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "commit": "cz"
   },
   "author": "azcpcf <99.a.cpcf.r.99@gmail.com>",
   "license": "ISC",
@@ -45,20 +45,24 @@
   },
   "dependencies": {
     "colorette": "^2.0.20",
-    "semver": "^7.7.2",
     "minimist": "^1.2.8",
     "nanospinner": "^1.2.2",
-    "prompts": "^2.4.2"
+    "prompts": "^2.4.2",
+    "semver": "^7.7.2"
   },
   "devDependencies": {
-    "typescript": "^5.9.2",
-    "tsup": "^8.5.0",
-    "tsx": "^4.20.6",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^24.5.2",
+    "@types/prompts": "^2.4.9",
+    "@types/semver": "^7.7.1",
     "commitizen": "^4.3.1",
     "cz-conventional-changelog": "^3.3.0",
-    "@types/node": "^24.5.2",
-    "@types/minimist": "^1.2.5",
-    "@types/prompts": "^2.4.9",
-    "@types/semver": "^7.7.1"
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.4",
+    "npm": "^11.6.1",
+    "tsup": "^8.5.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.2"
   }
 }
