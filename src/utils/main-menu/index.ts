@@ -2,8 +2,8 @@
 import prompts from 'prompts';
 import { green, blue, red, yellow, bold } from 'colorette';
 import { PublishManager } from '../../actions/publish-manager';
-import { LibraryCreator } from '../../actions/library-creator';
 import { printLogo } from '../print-logo';
+import { LibraryCreator } from '../../actions/library-creator';
 
 export async function mainMenu(statusMessage?: string) {
     console.clear();
