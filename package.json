@@ -1,6 +1,6 @@
 {
   "name": "pancakes-cli",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "files": [
     "dist"
   ],
@@ -35,7 +35,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "azcpcf <99.a.cpcf.r.99@gmail.com>",
-  "license": "",
+  "license": "ISC",
   "type": "module",
   "pancakes-cli": true,
   "config": {
