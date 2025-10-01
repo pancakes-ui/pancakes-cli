@@ -64,7 +64,7 @@ pancakes-cli
 
 - Changelog / Versioning Automation – semantic version bump, auto-generate changelog
 
-### Later Expansion (Post v1.0)
+### Later Expansion (Post v2.0)
 
 - Framework-specific templates – React / Express / Next.js / Node.js microservices
 
