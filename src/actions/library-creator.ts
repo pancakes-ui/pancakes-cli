@@ -5,11 +5,12 @@ import prompts from 'prompts';
 import { gitignoreTemplate } from '../templates/gitignore';
 import { indexPureTemplate } from '../templates/pure/index.template';
 import { packageJsonPureTemplate } from '../templates/pure/package.json';
-import { rollupConfigPureTemplate } from '../templates/pure/rollup.config';
 import { tsConfigPureTemplate } from '../templates/pure/tsconfig.json';
 import { execution } from '../utils/execution';
 import { getNpmUsername } from '../utils/get-info/get-npm-info';
-
+import { jestConfigPureTemplate } from '../templates/pure/jest.config';
+import { tsupConfigPureTemplate } from '../templates/pure/tsup.config';
+import { indexTestPureTemplate } from '../templates/pure/index-test.template';
 
 export class LibraryCreator {
     async run() {
@@ -64,7 +65,8 @@ export class LibraryCreator {
 
         this.initPackageJson(projectPath, responses.name, responses.author);
         this.createTsConfig(projectPath);
-        this.createRollupConfig(projectPath);
+        this.createJestConfig(projectPath);
+        this.createTsupConfig(projectPath);
         this.createGitignore(projectPath);
         this.createSrcIndex(projectPath);
 
@@ -110,12 +112,24 @@ export class LibraryCreator {
             , successMessage: 'tsconfig.json created', startMessage: 'Creating tsconfig.json...'
         })
     }
-
-    createRollupConfig(projectPath: string) {
+    createJestConfig(projectPath: string) {
         execution({
-            startMessage: 'Creating rollup.config.js...', successMessage: 'rollup.config.js created', errorMessage: 'Failed to create rollup.config.js', callback: () => {
-                const content = rollupConfigPureTemplate();
-                fs.writeFileSync(path.join(projectPath, 'rollup.config.js'), content);
+            callback: () => {
+                const tsconfig = jestConfigPureTemplate()
+
+                fs.writeFileSync(
+                    path.join(projectPath, 'jest.config.ts'),
+                    tsconfig
+                );
+            }, errorMessage: 'Failed to create jest.config.ts'
+            , successMessage: 'jest.config.ts created', startMessage: 'Creating jest.config.ts...'
+        })
+    }
+    createTsupConfig(projectPath: string) {
+        execution({
+            startMessage: 'Creating tsup.config.ts...', successMessage: 'tsup.config.ts created', errorMessage: 'Failed to create rollup.config.js', callback: () => {
+                const content = tsupConfigPureTemplate();
+                fs.writeFileSync(path.join(projectPath, 'tsup.config.ts'), content);
             }
         })
     }
@@ -137,7 +151,9 @@ export class LibraryCreator {
                     fs.mkdirSync(srcPath);
                 }
                 const content = indexPureTemplate();
+                const contentTest = indexTestPureTemplate();
                 fs.writeFileSync(path.join(srcPath, 'index.ts'), content);
+                fs.writeFileSync(path.join(srcPath, 'index.test.ts'), contentTest);
             }
         })
     }

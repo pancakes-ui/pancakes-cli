@@ -80,14 +80,14 @@ export class PublishManager {
         const { runBuildNow } = await prompts({
             type: 'confirm',
             name: 'runBuildNow',
-            message: 'Do you want to run `npm run rollup` build now before publishing?',
+            message: 'Do you want to run `npm run build` build now before publishing?',
             initial: true,
         });
 
         if (runBuildNow) {
-            const buildSpinner = createSpinner('Running build (`npm run rollup`)...').start();
+            const buildSpinner = createSpinner('Running build (`npm run build`)...').start();
             try {
-                execSync('npm run rollup', { cwd: projectPath, stdio: 'inherit' });
+                execSync('npm run build', { cwd: projectPath, stdio: 'inherit' });
                 buildSpinner.success({ text: 'Build completed successfully.' });
             } catch (error) {
                 buildSpinner.error({ text: 'Build failed. Please fix errors before publishing.' });
@@ -179,8 +179,8 @@ export class PublishManager {
                 }
             })
         }
-        const rollupPath = path.join(projectPath, 'node_modules', '.bin', 'rollup');
-        if (!fs.existsSync(rollupPath)) {
+        const jestPath = path.join(projectPath, 'node_modules', '.bin', 'jest');
+        if (!fs.existsSync(jestPath)) {
             execution({
                 startMessage: 'Installing missing dependencies...', successMessage: 'Dependencies installed.', errorMessage: 'Failed to install dependencies.', callback: () => {
                     execSync('npm install', { cwd: projectPath, stdio: 'inherit' });
