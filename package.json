@@ -31,7 +31,7 @@
   "scripts": {
     "start": "node --import=tsx src/cli.ts",
     "build": "tsup src/cli.ts --format cjs --dts --clean --minify",
-    "test": "jest",
+    "test": "jest --silent",
     "commit": "cz"
   },
   "author": "azcpcf <99.a.cpcf.r.99@gmail.com>",

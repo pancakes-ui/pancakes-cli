@@ -1,8 +1,8 @@
 import { red } from 'colorette';
 import minimist from 'minimist';
-import { mainMenu } from './utils/main-menu';
 import { printLogo } from './utils/print-logo';
 import { checkForUpdate } from './utils/check-update';
+import { mainMenu } from './utils/main-menu';
 
 
 async function main() {
@@ -22,6 +22,7 @@ async function main() {
 
     // Continue with menu after update check
     await mainMenu();
+
 }
 
 

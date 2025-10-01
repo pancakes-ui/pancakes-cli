@@ -4,8 +4,8 @@ import semver from 'semver';
 import { isUnix } from '../is-unix';
 import { printLogo } from '../print-logo';
 import { sleep } from '../sleep';
-import { getInstalledVersion } from './get-installed-version';
-import { isInstalledGlobally } from './is-installed-global';
+import { getInstalledVersion } from '../get-installed-version';
+import { isInstalledGlobally } from '../is-installed-globally';
 
 export async function checkForUpdate(): Promise<boolean> {
     console.clear();

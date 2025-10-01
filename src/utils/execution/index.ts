@@ -7,12 +7,12 @@ export function execution({ startMessage, callback, successMessage, errorMessage
         const res = callback()
         if (res?.isError) {
             errorMsg = res?.data
+            return errorMsg
         } else {
             spinner.success({ text: successMessage });
-            return res
+            return res?.data
         }
     } catch (error) {
-        spinner.error({ text: errorMsg });
         throw error;
     }
 }

@@ -31,4 +31,5 @@ export function printLogo(statusMessage?: string) {
     } else {
         console.log('\n');
     }
+    return version !== "0.0.0";
 }

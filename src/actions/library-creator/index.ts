@@ -2,15 +2,15 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import prompts from 'prompts';
-import { gitignoreTemplate } from '../templates/gitignore';
-import { indexPureTemplate } from '../templates/pure/index.template';
-import { packageJsonPureTemplate } from '../templates/pure/package.json';
-import { tsConfigPureTemplate } from '../templates/pure/tsconfig.json';
-import { execution } from '../utils/execution';
-import { getNpmUsername } from '../utils/get-info/get-npm-info';
-import { jestConfigPureTemplate } from '../templates/pure/jest.config';
-import { tsupConfigPureTemplate } from '../templates/pure/tsup.config';
-import { indexTestPureTemplate } from '../templates/pure/index-test.template';
+import { gitignoreTemplate } from '../../templates/gitignore';
+import { indexPureTemplate } from '../../templates/pure/index.template';
+import { packageJsonPureTemplate } from '../../templates/pure/package.json';
+import { jestConfigPureTemplate } from '../../templates/pure/jest.config';
+import { tsupConfigPureTemplate } from '../../templates/pure/tsup.config';
+import { indexTestPureTemplate } from '../../templates/pure/index-test.template';
+import { tsConfigPureTemplate } from '../../templates/pure/tsconfig.json';
+import { execution } from '../../utils/execution';
+import { getNpmUsername } from '../../utils/get-info/get-npm-info';
 
 export class LibraryCreator {
     async run() {
@@ -75,15 +75,18 @@ export class LibraryCreator {
 
     createFolder(name: string) {
         return execution({
-            startMessage: `Creating folder '${name}'...`, errorMessage: `Failed to create folder '${name}'`, successMessage: `Folder '${name}' created`, callback: () => {
+            startMessage: `Creating folder '${name}'...`,
+            errorMessage: `Failed to create folder '${name}'`,
+            successMessage: `Folder '${name}' created`,
+            callback: () => {
                 const folderPath = path.resolve(process.cwd(), name);
                 if (fs.existsSync(folderPath)) {
-                    return { isError: true, data: `Folder '${name}' already exists.` }
+                    return { isError: true, data: `Folder '${name}' already exists.` };
                 }
                 fs.mkdirSync(folderPath, { recursive: true });
-                return folderPath
+                return folderPath;
             }
-        })
+        });
     }
 
     initPackageJson(projectPath: string, name: string, author: string) {

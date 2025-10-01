@@ -4,7 +4,7 @@ import { createSpinner } from 'nanospinner';
 import path from 'path';
 import prompts from 'prompts';
 import semver from 'semver';
-import { execution } from '../utils/execution';
+import { execution } from '../../utils/execution';
 
 export class PublishManager {
     async run() {
