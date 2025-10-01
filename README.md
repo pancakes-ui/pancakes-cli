@@ -48,9 +48,29 @@ pancakes-cli
 
 ## 🗺️ Roadmap
 
-- 🧪 Add test library to create new library
+- Test Framework Selection – multi-select: Jest / Vitest / Mocha / others
 
-- ⚛️ Add option to create React.js libraries
+- CI/CD Support – auto-generate GitHub Actions workflows for build & test
+
+- GitHub Repo Automation – create repo, init commit, auto release, tag, upload artifacts
+
+- Multiple Build Tool Support – tsup / rollup / esbuild (multi-select)
+
+- Interactive CLI Improvements – enhanced prompts, yes/no, multi-select options
+
+- Templates / Boilerplates – library / CLI / fullstack starter
+
+- Plugin System (Future) – allow users to add custom tasks or extensions
+
+- Changelog / Versioning Automation – semantic version bump, auto-generate changelog
+
+### Later Expansion (Post v1.0)
+
+- Framework-specific templates – React / Express / Next.js / Node.js microservices
+
+- Optional Testing Configs – preconfigured test setups for different frameworks
+
+- Optional Build/Publish pipelines – tailor workflow for frontend, backend, or fullstack projects
 
 ## 🚀 Run Locally
 
