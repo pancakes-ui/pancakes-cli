@@ -10,25 +10,26 @@
 - 📥 Installs dev dependencies automatically
 - 🚀 **Publish** to npm with versioning and tagging
 - 🧠 Interactive and beginner-friendly UX
+
 ## 📦 Installation
 
 Install pancakes-cli with npm
 
 ```bash
-  npm install -g pancakes-cli
-  pancakes-cli
+npm install -g pancakes-cli
+pancakes-cli
 ```
+
 ## 🏅 Badges
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
 [![npm](https://img.shields.io/npm/dm/pancakes-cli)](https://www.npmjs.com/package/pancakes-cli)
 
-[![npm](https://img.shields.io/npm/v/pancakes-cli
-)](https://www.npmjs.com/package/pancakes-cli)
+[![npm](https://img.shields.io/npm/v/pancakes-cli)](https://www.npmjs.com/package/pancakes-cli)
 
-[![npm](https://img.shields.io/npm/unpacked-size/pancakes-cli
-)](https://www.npmjs.com/package/pancakes-cli)
+[![npm](https://img.shields.io/npm/unpacked-size/pancakes-cli)](https://www.npmjs.com/package/pancakes-cli)
+
 ## 🛠️ Tech Stack
 
 - 🔷 TypeScript
@@ -44,35 +45,37 @@ Install pancakes-cli with npm
 - ⏳ Nanospinner (for loading spinners)
 
 - 📥 Minimist (argument parsing)
+
 ## 🗺️ Roadmap
 
 - 🧪 Add test library to create new library
 
 - ⚛️ Add option to create React.js libraries
+
 ## 🚀 Run Locally
 
 Clone the project
 
 ```bash
-  git clone https://github.com/pancakes-ui/pancakes-cli.git
+git clone https://github.com/pancakes-ui/pancakes-cli.git
 ```
 
 Go to the project directory
 
 ```bash
-  cd pancakes-cli
+cd pancakes-cli
 ```
 
 Install dependencies
 
 ```bash
-  npm i
+npm i
 ```
 
 Start the server
 
 ```bash
-  npm start
+npm start
 ```
 
 ## 🔧 Usage
@@ -91,15 +94,13 @@ See `contributing.md` for ways to get started.
 
 Please adhere to this project's `code of conduct`.
 
-
 ## 🥞 About Me
-undefined
 
+undefined
 
 ## 📝 License
 
 [ISC](https://choosealicense.com/licenses/isc/)
-
 
 ## 👩‍💻 Authors
 
