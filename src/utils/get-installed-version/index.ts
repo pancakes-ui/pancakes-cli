@@ -1,39 +1,22 @@
-import { execSync } from "child_process";
-import { readFileSync } from "fs";
-import path from "path";
+import { runShellCommand } from "../shell/run-shell";
 
-export function getInstalledVersion(): string {
-    try {
-        const localOutput = execSync('npm ls pancakes-cli --json', { encoding: 'utf-8' });
-        const localData = JSON.parse(localOutput);
-        const localVersion = localData.dependencies?.['pancakes-cli']?.version;
-        if (localVersion) {
-            return localVersion;
-        }
-    } catch {
-        // ignore errors
-    }
+export const getInstalledVersion = async (): Promise<{
+  type: "global" | "local" | "notfound";
+  version: string;
+}> => {
+  const localOutput = await runShellCommand("npm ls pancakes-cli");
+  const match = localOutput.match(/pancakes-cli@([\d.]+)/);
+  if (match) {
+    const version = match[1];
+    return { type: "local", version };
+  }
 
-    try {
-        const globalOutput = execSync('npm ls -g pancakes-cli --json', { encoding: 'utf-8' });
-        const globalData = JSON.parse(globalOutput);
-        const globalVersion = globalData.dependencies?.['pancakes-cli']?.version;
-        if (globalVersion) {
-            return globalVersion;
-        }
-    } catch {
-        // ignore errors
-    }
+  const globalOutput = await runShellCommand("npm ls -g pancakes-cli --json");
+  const globalVersion =
+    JSON.parse(globalOutput)?.dependencies?.["pancakes-cli"]?.version.trim();
+  if (globalVersion) {
+    return { type: "global", version: globalVersion };
+  }
 
-    try {
-        const pkgPath = path.resolve(__dirname, '../package.json');
-        const pkgJson = JSON.parse(readFileSync(pkgPath, 'utf-8'));
-        if (pkgJson.version) {
-            return pkgJson.version;
-        }
-    } catch {
-        // ignore errors
-    }
-
-    return '0.0.0';
-}
+  return { type: "notfound", version: "0.0.0" };
+};

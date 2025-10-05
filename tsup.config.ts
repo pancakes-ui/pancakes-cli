@@ -1,7 +1,7 @@
 // tsup.config.ts
 export default {
     entry: ['src/cli.ts'],
-    format: ['cjs'],
+    format: ['esm'],
     dts: true,
     clean: true,
     splitting: false, // <- Try false to reduce overhead

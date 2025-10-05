@@ -1,1 +1,0 @@
-export const isUnix = () => process.platform !== 'win32'
